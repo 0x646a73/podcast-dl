@@ -33,6 +33,7 @@ const opts = setupCommander(program);
 
 const {
   after,
+  alphanumeric,
   alwaysPostprocess,
   attempts,
   before,
@@ -61,6 +62,7 @@ const {
   proxy,
   reverse,
   threads,
+  upperCamelCase,
   url,
   addMp3Metadata: addMp3MetadataFlag,
   adjustBitrate: bitrate,
@@ -228,6 +230,8 @@ const main = async () => {
     includeEpisodeImages,
     includeEpisodeTranscripts,
     episodeTranscriptTypes,
+    alphanumeric,
+    upperCamelCase,
   });
 
   if (!targetItems.length) {
@@ -240,6 +244,7 @@ const main = async () => {
 
   const { numEpisodesDownloaded, hasErrors } = await downloadItemsAsync({
     addMp3MetadataFlag,
+    alphanumeric,
     archive,
     archivePrefix,
     attempts,
@@ -258,6 +263,7 @@ const main = async () => {
     alwaysPostprocess,
     targetItems,
     threads,
+    upperCamelCase,
   });
 
   if (hasErrors && numEpisodesDownloaded !== targetItems.length) {

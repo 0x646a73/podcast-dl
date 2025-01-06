@@ -25,6 +25,14 @@ export const setupCommander = (program) => {
       "{{release_date}}-{{title}}"
     )
     .option(
+      "--alphanumeric",
+      "preserves only alphanumeric characters (a-zA-Z0-9) in filenames"
+    )
+    .option(
+      "--upperCamelCase",
+      "use upper camel case (UpperCamelCase) in filenames"
+    )
+    .option(
       "--episode-custom-template-options <patterns...>",
       "create custom options for the episode template"
     )

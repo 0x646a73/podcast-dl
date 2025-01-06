@@ -163,6 +163,7 @@ const download = async (options) => {
 
 const downloadItemsAsync = async ({
   addMp3MetadataFlag,
+  alphanumeric,
   archive,
   archivePrefix,
   attempts,
@@ -181,6 +182,7 @@ const downloadItemsAsync = async ({
   alwaysPostprocess,
   targetItems,
   threads = 1,
+  upperCamelCase,
 }) => {
   let numEpisodesDownloaded = 0;
   let hasErrors = false;
@@ -208,6 +210,8 @@ const downloadItemsAsync = async ({
       customTemplateOptions: episodeCustomTemplateOptions,
       width: episodeDigits,
       offset: episodeNumOffset,
+      alphanumeric,
+      upperCamelCase,
     });
     const outputPodcastPath = _path.resolve(basePath, episodeFilename);
 
@@ -294,6 +298,8 @@ const downloadItemsAsync = async ({
         customTemplateOptions: episodeCustomTemplateOptions,
         width: episodeDigits,
         offset: episodeNumOffset,
+        alphanumeric,
+        upperCamelCase,
       });
       const outputEpisodeMetaPath = _path.resolve(basePath, episodeMetaName);
 

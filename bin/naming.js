@@ -18,6 +18,16 @@ const getSimpleFilename = (name, ext = "") => {
   return `${getSafeName(name, MAX_LENGTH_FILENAME - (ext?.length ?? 0))}${ext}`;
 };
 
+const stripSpecialChars = (str) => {
+  return str.replace(/[^a-zA-Z0-9]/g, "");
+};
+
+const toUpperCamelCase = (str) => {
+  return str
+    .replace(/\b\w/g, (match) => match.toUpperCase())
+    .replace(/\s+/g, "");
+};
+
 const getItemFilename = ({
   item,
   ext,
@@ -27,9 +37,28 @@ const getItemFilename = ({
   width,
   customTemplateOptions = [],
   offset = 0,
+  alphanumeric,
+  upperCamelCase,
 }) => {
   const episodeNum = feed.items.length - item._originalIndex + offset;
-  const title = item.title || "";
+
+  const title =
+    alphanumeric && upperCamelCase
+      ? toUpperCamelCase(stripSpecialChars(item.title)) || ""
+      : alphanumeric
+      ? stripSpecialChars(item.title) || ""
+      : upperCamelCase
+      ? toUpperCamelCase(item.title) || ""
+      : item.title || "";
+
+  const podcastTitle =
+    alphanumeric && upperCamelCase
+      ? toUpperCamelCase(stripSpecialChars(feed.title)) || ""
+      : alphanumeric
+      ? stripSpecialChars(feed.title) || ""
+      : upperCamelCase
+      ? toUpperCamelCase(feed.title) || ""
+      : feed.title || "";
 
   const releaseYear = item.pubDate
     ? dayjs(new Date(item.pubDate)).format("YYYY")
@@ -62,7 +91,7 @@ const getItemFilename = ({
     ["release_day", releaseDay || ""],
     ["episode_num", `${episodeNum}`.padStart(width, "0")],
     ["url", url],
-    ["podcast_title", feed.title || ""],
+    ["podcast_title", podcastTitle || ""],
     ["podcast_link", feed.link || ""],
     ["duration", item.itunes?.duration || ""],
     ["guid", item.guid],
